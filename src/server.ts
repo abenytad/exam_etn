@@ -1,6 +1,7 @@
 const http=require('http');
 const app=require('./app');
-const PORT=5000;
+
+const PORT=process.env.PORT || 5000;
 const server=http.createServer(app);
 const startConnectionn=require('./services/mongo')
 async function startServer(){
