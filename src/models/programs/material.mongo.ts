@@ -4,7 +4,8 @@ export interface MaterialType extends Document {
     description?: string;
     materialUrl:string;
     type:string;
-    course:Schema.Types.ObjectId;
+    courseId:Schema.Types.ObjectId;
+    occurence:number;
 }
 
 
@@ -13,7 +14,8 @@ const materialSchema:Schema=new Schema<MaterialType>({
     description: {type:String},
     materialUrl: {type:String,required:true},
     type: {type:String,required:true},
-    course: {type: Schema.Types.ObjectId, ref: 'Course'},
+    courseId: {type: Schema.Types.ObjectId, ref: 'Course'},
+    occurence: {type:Number,required:true},
 },{timestamps:true});
 
 const Material:Model<MaterialType>=model<MaterialType>('Material',materialSchema);

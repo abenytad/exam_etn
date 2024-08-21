@@ -33,6 +33,22 @@ const getSpecificProgram = async (
   }).lean();
 };
 
+const createCourse=async (data:CourseType):Promise<CourseType>=>{
+  return await Course.create(data);
+}
 
+const getCourses=async(programId:String):Promise<CourseType[] | []>=>{
+  return Course.find({programId:programId},{ _id: 1 , name:1,description:1,imageUrl:1,programId:1}).lean();
+}
 
-export { createProgram, getProgramIds, getProgramTitle, getSpecificProgram };
+const addMaterial=async(data:MaterialType):Promise<MaterialType>=>{
+  return await Material.create(data);
+}
+ 
+const getMaterials = async (courseId: String): Promise<MaterialType[] | []> => {
+  return Material.find({ courseId },{ _id: 1 , name:1,description:1,materialUrl:1,courseId:1,occurence:1,type:1})
+    .lean()
+    .sort({ occurence: 1 });  // Sorting by 'occurence' in ascending order
+}
+
+export { createProgram, getProgramIds, getProgramTitle, getSpecificProgram, createCourse,getCourses,addMaterial,getMaterials };
