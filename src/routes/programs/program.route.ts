@@ -9,6 +9,7 @@ import {
   fetchCourses,
   newMaterial,
   fetchMaterials,
+  getAIResponse,
 } from "./program.controller";
 
 const programRouter: Router = Router();
@@ -21,4 +22,5 @@ programRouter.post('/course',newCourse);
 programRouter.get('/courses/:programId',fetchCourses);
 programRouter.post('/material',newMaterial);
 programRouter.get('/materials/:courseId',fetchMaterials);
+programRouter.post('/request',getAIResponse);
 export default programRouter;
