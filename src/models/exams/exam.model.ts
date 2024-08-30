@@ -106,8 +106,19 @@ const result =async(examId:String):Promise<number | 0>=>{
     else {
         return 0;
     }
-   
 }
+
+const getExam =async(examId:String):Promise<ExamType | null>=>{
+  return await Exam.findById(examId).lean();
+}
+const getTheQuestion =async(questionId:String):Promise<QuestionType | null>=>{
+  return await Question.findById(questionId,{
+    __v:0,
+    updatedAt:0,
+    createdAt:0
+  }).lean();
+}
+
 
 export {
    createQuestion,
@@ -116,4 +127,6 @@ export {
    addAnswer,
    result,
    createExam,
+   getExam,
+   getTheQuestion,
 }

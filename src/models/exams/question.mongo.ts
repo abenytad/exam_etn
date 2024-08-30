@@ -7,6 +7,7 @@ export interface QuestionType extends Document {
   type: string;
   options: string[];
   answer: number;
+  description?:string;
 }
 
 const questionSchema: Schema = new Schema<QuestionType>(
@@ -26,6 +27,10 @@ const questionSchema: Schema = new Schema<QuestionType>(
     ],
     answer: {
       type: Number,
+      required: true,
+    },
+    description: {
+      type: String,
       required: true,
     },
   },

@@ -8,6 +8,8 @@ import {
   createExam,
   addAnswer,
   result,
+  getExam,
+  getTheQuestion
 } from "../../models/exams/exam.model";
 
 const newQuestion = async (req: Request, res: Response) => {
@@ -99,6 +101,37 @@ const getScore = async (req: Request, res: Response) => {
     return res.status(404).json({ error: `${err}` });
   }
 };
+
+const getAllExamQuestions = async (req: Request, res: Response) => {
+  try {
+    const { examId } = req.params;
+    
+    if (!examId) {
+      return res.status(400).json({ error: 'Exam ID is required' });
+    }
+
+    const exam = await getExam(examId);
+    
+    if (!exam || !exam.questions) {
+      return res.status(404).json({ error: 'Exam or questions not found' });
+    }
+
+    // Fetch questions in parallel
+    const questions = await Promise.all(
+      exam.questions.map(async (value) => {
+        const questionData = await getTheQuestion(value.questionId);
+        return {
+          ...questionData,
+          givenAnswer: value.answer,
+        };
+      })
+    );
+
+    return res.status(200).json(questions);
+  } catch (err) {
+    return res.status(404).json({ error: `${err}` });
+  }
+};
 export {
-    newQuestion,fetchQuestion,fetchQuestionIds,newExam,giveAnswer,getScore
+    newQuestion,fetchQuestion,fetchQuestionIds,newExam,giveAnswer,getScore,getAllExamQuestions
 }

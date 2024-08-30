@@ -19,8 +19,6 @@ app.use('/programs',programRouter);
 app.use('/users',userRouter);
 app.use('/exams',examRouter);
 app.use('/auth',authRouter);
-
-// Initialize the OpenAI client with your API key
 const openai = new OpenAI({
   apiKey: process.env.AI_API_KEY,
 });
@@ -37,7 +35,4 @@ export const getChatCompletion=async (prompt: string) =>{
     throw error;
   }
 }
-
-
-
 module.exports=app;
