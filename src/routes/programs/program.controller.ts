@@ -14,25 +14,7 @@ import {
 } from "../../models/programs/program.model";
 import { getUser } from "../../models/users/user.model";
 import { getEnrolledProgramIds } from "../../models/users/user.model";
-// import { OpenAI } from 'openai';
-import { getChatCompletion } from "../../app";
-// Initialize the OpenAI client with your API key
-// const openai = new OpenAI({
-//   apiKey: process.env.AI_API_KEY,
-// });
-
-// async function getChatCompletion(prompt: string) {
-//   try {
-//     const response = await openai.chat.completions.create({
-//       model: 'gpt-3.5-turbo',
-//       messages: [{ role: 'user', content: prompt }],
-//     });
-//     return response.choices[0].message.content;
-//   } catch (error) {
-//     console.error('Error:', error);
-//     throw error;
-//   }
-// }
+import { chatbotFunc } from "../../app";
 
 
 
@@ -42,8 +24,8 @@ const newProgram = async (req: Request, res: Response) => {
     const program = await createProgram(data);
     console.log("hi there");
     return res.status(201).json(program);
-  } catch (err) {
-    return res.status(404).json({ error: `${err}` });
+  } catch (err:any) {
+    return res.status(404).json({ error: `${err.message}` });
   }
 };
 const fetchProgramIds = async (req: Request, res: Response) => {
@@ -125,7 +107,6 @@ const newCourse = async (req: Request, res: Response) => {
 const fetchCourses = async (req: Request, res: Response) => {
   try {
     const { programId }: { programId?: string } = req.params;
-    // const program=await getProgramTitle(programId);
     const courses = await getCourses(programId);
     return res.status(200).json(courses);
   } catch (err) {
@@ -157,8 +138,7 @@ const fetchMaterials = async (req: Request, res: Response) => {
 const getAIResponse = async (req: Request, res: Response) => {
   try {
     const { data }: { data: string } = req.body;
-    const response=getChatCompletion(data);
-    console.log(response);
+    const response=await chatbotFunc(data);
     return res.status(200).json(response);
   } catch (err) {
     return res.status(404).json({ error: `${err}` });

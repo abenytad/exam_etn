@@ -7,19 +7,30 @@ import {
   saveModified,
   getUserByPhoneNumber,
 } from "../../models/users/user.model";
+import User from "../../models/users/user.mongo";
 import bcrypt from "bcrypt";
 
 const newUser = async (req: Request, res: Response) => {
   try {
     const data: UserType = req.body;
+
+    // Check if phone number already exists
+    const existingUser = await User.findOne({ phoneNumber: data.phoneNumber }).exec();
+
+    if (existingUser) {
+      return res.status(404).json({ error: 'Phone number already exists' });
+    }
+
+    // Proceed to create new user
     const user = await createUser(data);
     console.log(data);
     console.log("sign up");
     return res.status(201).json(user);
   } catch (err) {
-    return res.status(404).json({ error: `${err}` });
+    return res.status(500).json({ error: `${err}` }); // Changed to 500 for generic server errors
   }
 };
+
 
 const enrollProgram = async (req: Request, res: Response) => {
   try {
