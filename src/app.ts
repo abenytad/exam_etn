@@ -8,10 +8,12 @@ import authRouter from "./routes/auths/auth.route";
 import bankRouter from "./routes/banks/banks.route";
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 require("dotenv").config();
+
 const app = express();
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
 export const chatbotFunc = async (prompt: string) => {
   const genAI = new GoogleGenerativeAI(process.env.API_KEY);
   const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
@@ -23,6 +25,12 @@ export const chatbotFunc = async (prompt: string) => {
     .trim(); 
   return responseText;
 };
+
+// Add a GET route that returns "Hello World"
+app.get("/", (req, res) => {
+  res.send("Hello World");
+});
+
 app.use("/programs", programRouter);
 app.use("/users", userRouter);
 app.use("/exams", examRouter);
