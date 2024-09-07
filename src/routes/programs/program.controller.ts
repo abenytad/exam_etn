@@ -46,8 +46,6 @@ const fetchProgramTitle = async (req: Request, res: Response) => {
     if (!programId || !userId) {
       return res.status(400).json({ error: "Missing programId or userId" });
     }
-
-    // Retrieve user data and program data
     const userData = await getUser(userId);
     const data: Partial<ProgramType> | null = await getProgramTitle(programId);
 

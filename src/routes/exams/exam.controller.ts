@@ -25,7 +25,7 @@ const newQuestion = async (req: Request, res: Response) => {
 const fetchQuestionIds = async (req: Request, res: Response) => {
   try {
     const { programId,userId }: { programId?: string,userId?:string } = req.params;
-    const questionIds: any = await getQuestionIds(programId, 5);
+    const questionIds: any = await getQuestionIds(programId, 10);
     const examData = {
       userId,
       programId,
